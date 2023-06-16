@@ -13,6 +13,7 @@ const PageButtons: React.FC<Props> = (props) => {
   const linkRef = React.useRef<HTMLAnchorElement>(null)
   
   const handleClick = () => {
+    props.select(props.label)
     setTimeout(() => {
       linkRef?.current?.click();
     }, 200);
@@ -24,7 +25,7 @@ const PageButtons: React.FC<Props> = (props) => {
       className={style} 
       onClick={handleClick}
     >
-      <Link ref={linkRef} href={props?.pagePath} >
+      <Link ref={linkRef} href={props?.pagePath} className="w-full text-center">
         {props?.label}
       </Link>
     </div>

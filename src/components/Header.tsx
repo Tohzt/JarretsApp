@@ -2,35 +2,43 @@ import React from 'react';
 import PageButtons from "./PageButtons"
 import Head from "next/head"
 import Link from 'next/link';
-//import { useSession } from 'next-auth/react';
-//import { api } from "../utils/api";
 
 interface pagesType {
   [key: string]: {
     pagePath: string,
-    label: string,
-    style: string
+    style: string,
   }
 }
 const pages: pagesType = {
-  "Gallery": { pagePath: "/gallery", label: "GALLERY", style: "" },
-  "Coaches": { pagePath: "/coaches", label: "COACHES", style: "" },
-  "Schedules": { pagePath: "/schedule", label: "SCHEDULES", style: "" },
-  "Classes": { pagePath: "/classes", label: "CLASSES", style: "" },
-  "About": { pagePath: "/about", label: "ABOUT", style: "" },
+  "Gallery": { pagePath: "/gallery", style: "" },
+  "Coaches": { pagePath: "/coaches", style: "" },
+  "Schedules": { pagePath: "/schedule", style: "" },
+  "Classes": { pagePath: "/classes", style: "" },
+  "About": { pagePath: "/about", style: "" },
+}
+
+const selectPage = (selected: string) => {
+  for (const page in pages) { pages[page].style = "" }
+  if (selected)
+    pages[selected].style = "bg-orange-400 pointer-events-none"
 }
 
 const displayPages = () => {
   return Object.keys(pages).map((page, index) => {
     const style = pages[page]?.style
-    return <PageButtons key={index} pagePath={pages[page]?.pagePath} label={pages[page]?.label} style={style} />
+    return  (
+      <PageButtons 
+        key={index} 
+        pagePath={pages[page]?.pagePath} 
+        label={page} 
+        style={style} 
+        select={selectPage}
+      />
+    )
   })
 }
 
 const Header: React.FC = () => {
-  //const { data: session } = useSession();
-  //const user = session ? session.user : null
-
   return (
     <>
       <Head>
@@ -41,12 +49,18 @@ const Header: React.FC = () => {
 
       <div className="header-background">
         <div className="header-top">
-          <Link className="header-logo" href="/">
+          <Link 
+            className="header-logo" 
+            href="/"
+            onClick={() => {selectPage("")}}>
             Velocity Gymnastics
           </Link>
-          <div className="header-enroll">
+          <Link 
+            className="header-enroll" 
+            href="/enroll"
+            onClick={() => {selectPage("")}}>
             Enroll Now
-          </div>
+          </Link>
         </div>
 
         <div className="header-pages">
@@ -59,7 +73,6 @@ const Header: React.FC = () => {
         </div>
 
         <div className="header-bottom">
-
         </div>
       </div>
     </>
